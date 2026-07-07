@@ -7,6 +7,14 @@ def conversation_agent(state: AgentState):
 
     query = state["user_query"].strip().lower()
 
+    # Remove common punctuation
+    query = (
+        query.replace("!", "")
+             .replace(".", "")
+             .replace(",", "")
+             .replace("?", "")
+    )
+
     # -------------------------------------------------
     # Waiting for user after an issue has been resolved
     # -------------------------------------------------
@@ -32,7 +40,7 @@ def conversation_agent(state: AgentState):
 
             state["response"] = (
                 "Sure! 😊\n\n"
-                "Please choose one of the support topics below."
+                "What else can I help you with today?"
             )
 
             state["show_quick_actions"] = True
@@ -68,44 +76,65 @@ def conversation_agent(state: AgentState):
             return state
 
     # -------------------------------------------------
-    # Normal Greetings
+    # Greetings
     # -------------------------------------------------
 
-    greetings = {
-        "hi": "Hello! 👋 How can I assist you today?",
-        "hello": "Hello! 👋 How can I assist you today?",
-        "hey": "Hi! 👋 How can I help you today?",
-        "good morning": "Good morning! ☀️ How can I help you today?",
-        "good afternoon": "Good afternoon! 😊 How can I help you today?",
-        "good evening": "Good evening! 🌙 How can I help you today?",
-        "thanks": "You're welcome! 😊",
-        "thank you": "You're welcome! 😊",
-        "bye": "Thank you for contacting SmartAssist. Have a great day! 👋"
-    }
+    if query.startswith(("hi", "hii", "hiii")):
 
-    if query in greetings:
+        state["response"] = "Hello! 👋 How can I assist you today?"
 
-        state["response"] = greetings[query]
+    elif query.startswith(("hey", "heyy", "heyyy")):
 
-        state["resolved"] = True
-        state["needs_more_info"] = False
-        state["show_quick_actions"] = False
-        state["awaiting_additional_help"] = False
+        state["response"] = "Hi! 👋 How can I help you today?"
 
-        state["intent"] = "Conversation"
-        state["conversation_status"] = "COMPLETED"
-        state["escalation_required"] = False
+    elif query.startswith("hello"):
 
-        print("Handled by Conversation Agent.")
+        state["response"] = "Hello! 👋 How can I assist you today?"
+
+    elif query.startswith(("gm", "good morning")):
+
+        state["response"] = "Good morning! ☀️ How can I help you today?"
+
+    elif query.startswith("good afternoon"):
+
+        state["response"] = "Good afternoon! 😊 How can I help you today?"
+
+    elif query.startswith(("ge", "good evening")):
+
+        state["response"] = "Good evening! 🌙 How can I help you today?"
+
+    elif query.startswith(("thanks", "thank")):
+
+        state["response"] = "You're welcome! 😊"
+
+    elif query.startswith(("bye", "byee", "byeee")):
+
+        state["response"] = (
+            "Thank you for contacting SmartAssist.\n"
+            "Have a wonderful day! 👋"
+        )
+
+    else:
+
+        state["conversation_status"] = "ACTIVE"
+
+        print("Forwarding to Inquiry Agent.")
 
         return state
 
     # -------------------------------------------------
-    # Forward to next agent
+    # Conversation handled
     # -------------------------------------------------
 
-    state["conversation_status"] = "ACTIVE"
+    state["resolved"] = True
+    state["needs_more_info"] = False
+    state["show_quick_actions"] = False
+    state["awaiting_additional_help"] = False
 
-    print("Forwarding to Inquiry Agent...")
+    state["intent"] = "Conversation"
+    state["conversation_status"] = "COMPLETED"
+    state["escalation_required"] = False
+
+    print("Handled by Conversation Agent.")
 
     return state

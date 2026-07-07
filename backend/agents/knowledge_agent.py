@@ -1,7 +1,11 @@
 from graph.state import AgentState
 
 from rag.retriever import get_retriever
-from utils.llm import get_llm
+
+from utils.llm import (
+    get_llm,
+    llm_fallback,
+)
 
 
 def knowledge_agent(state: AgentState):
@@ -23,33 +27,28 @@ def knowledge_agent(state: AgentState):
         doc.page_content for doc in docs
     ]
 
-    # No documents found
-    if len(docs) == 0:
+    # --------------------------------------------------
+    # Documents found in RAG
+    # --------------------------------------------------
 
-        state["response"] = (
-            "I couldn't find any relevant information "
-            "in the knowledge base."
+    if len(docs) > 0:
+
+        context = "\n\n".join(
+            doc.page_content for doc in docs
         )
 
-        print("No documents retrieved.")
-
-        return state
-
-    context = "\n\n".join(
-        doc.page_content for doc in docs
-    )
-
-    prompt = f"""
+        prompt = f"""
 You are SmartAssist, an AI Customer Support Assistant.
 
-You MUST answer ONLY from the given context.
+Answer ONLY using the given context.
 
-If the answer is not present in the context, reply exactly:
+Rules:
+
+- Never invent information.
+- Never answer outside the provided context.
+- If the answer cannot be found in the context, reply EXACTLY:
 
 I couldn't find this information in our knowledge base.
-
-Do not make assumptions.
-Do not generate information outside the context.
 
 Context:
 {context}
@@ -58,12 +57,54 @@ Customer Question:
 {state["user_query"]}
 """
 
-    llm = get_llm()
+        llm = get_llm()
 
-    response = llm.invoke(prompt)
+        response = llm.invoke(prompt)
 
-    state["response"] = response.content.strip()
+        answer = response.content.strip()
 
-    print("Knowledge Agent completed.")
+        # --------------------------------------------------
+        # RAG couldn't answer -> Use Groq
+        # --------------------------------------------------
+
+        if "couldn't find this information in our knowledge base" in answer.lower():
+
+            print("RAG could not answer. Using Groq fallback...")
+
+            fallback = llm_fallback(
+                state["user_query"],
+                state["intent"]
+            )
+
+            state["response"] = fallback
+
+            print("Fallback Response:", fallback)
+
+            return state
+
+        # --------------------------------------------------
+        # RAG answered successfully
+        # --------------------------------------------------
+
+        state["response"] = answer
+
+        print("Knowledge Agent completed.")
+
+        return state
+
+    # --------------------------------------------------
+    # No documents retrieved -> Use Groq
+    # --------------------------------------------------
+
+    print("No documents found. Using Groq fallback...")
+
+    fallback = llm_fallback(
+        state["user_query"],
+        state["intent"]
+    )
+
+    state["response"] = fallback
+
+    print("Fallback Response:", fallback)
 
     return state
