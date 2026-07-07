@@ -1,0 +1,193 @@
+/* ===========================
+   DARK THEME
+=========================== */
+
+.dark{
+
+    --bg:#111827;
+
+    --card:#1E293B;
+
+    --card-hover:#273549;
+
+    --sidebar:#1E293B;
+
+    --header:#1E293B;
+
+    --input:#111827;
+
+    --primary:#3B82F6;
+
+    --primary-hover:#2563EB;
+
+    --text:#FFFFFF;
+
+    --text-secondary:#94A3B8;
+
+    --border:#334155;
+
+    --shadow:0 15px 30px rgba(0,0,0,.25);
+
+}
+
+/* ===========================
+   LIGHT THEME
+=========================== */
+
+.light{
+
+    --bg:#F8FAFC;
+
+    --card:#FFFFFF;
+
+    --card-hover:#F1F5F9;
+
+    --sidebar:#FFFFFF;
+
+    --header:#FFFFFF;
+
+    --input:#F8FAFC;
+
+    --primary:#2563EB;
+
+    --primary-hover:#1D4ED8;
+
+    --text:#111827;
+
+    --text-secondary:#475569;
+
+    --border:#CBD5E1;
+
+    --shadow:0 15px 30px rgba(0,0,0,.08);
+
+}
+
+/* ===========================
+   RESET
+=========================== */
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html,
+body,
+#root{
+
+    width:100%;
+
+    height:100%;
+
+    font-family:Inter,Segoe UI,sans-serif;
+
+}
+
+body{
+
+    overflow:hidden;
+
+    transition:.3s;
+
+}
+
+/* ===========================
+   APP
+=========================== */
+
+.app-layout{
+
+    display:flex;
+
+    width:100vw;
+
+    height:100vh;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    transition:.3s;
+
+}
+
+.main-content{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    background:var(--bg);
+
+    overflow:hidden;
+
+}
+
+/* ===========================
+   COMMON BUTTON
+=========================== */
+
+button{
+
+    cursor:pointer;
+
+    border:none;
+
+    outline:none;
+
+    font-family:inherit;
+
+}
+
+/* ===========================
+   COMMON INPUT
+=========================== */
+
+input{
+
+    outline:none;
+
+    border:none;
+
+    font-family:inherit;
+
+}
+
+/* ===========================
+   LINKS
+=========================== */
+
+a{
+
+    color:inherit;
+
+    text-decoration:none;
+
+}
+
+/* ===========================
+   TRANSITIONS
+=========================== */
+
+*{
+
+    transition:
+
+    background .25s,
+
+    color .25s,
+
+    border-color .25s,
+
+    box-shadow .25s,
+
+    transform .25s;
+
+}
