@@ -2,13 +2,13 @@
 
 SmartAssist is an AI-powered customer support application built using **FastAPI, React, LangGraph, RAG, ChromaDB, and Groq LLM**. It provides intelligent customer assistance through a multi-agent workflow, retrieves information from a knowledge base, and escalates complex queries when required.
 
-## 🌐 Live Demo
+### 🌐 Live Demo
 
 **Frontend:** https://customer-support-ai-agent-nu.vercel.app
 
 **Backend API:** https://customer-support-ai-agent-oz0j.onrender.com
 
-## ✨ Features
+### ✨ Features
 
 - Multi-Agent workflow using LangGraph
 - Retrieval-Augmented Generation (RAG) with ChromaDB
@@ -17,7 +17,7 @@ SmartAssist is an AI-powered customer support application built using **FastAPI,
 - Human escalation for policy and account-related requests
 - Modern React + Vite frontend with FastAPI backend
 
-## 🔄 Workflow
+### 🔄 Workflow
 
 1. **Conversation Agent** greets the user and starts the conversation.
 2. **Inquiry Agent** identifies the user's intent and requests additional information if the query is unclear.
@@ -25,7 +25,8 @@ SmartAssist is an AI-powered customer support application built using **FastAPI,
 4. If the knowledge base cannot answer, the request is passed to the **Groq LLM Fallback**, which either provides general guidance or determines whether human intervention is required.
 5. Queries involving company policies, account-specific information, or sensitive actions are forwarded to the **Resolution Agent** for human support escalation.
 6. Finally, the **Support Agent** confirms whether the user's issue has been resolved and offers additional assistance through quick action options.
-## 🛠️ Tech Stack
+
+### 🛠️ Tech Stack
 
 **Frontend:** React, Vite, Axios, CSS
 
