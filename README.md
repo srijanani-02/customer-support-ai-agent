@@ -6,6 +6,8 @@ SmartAssist is an AI-powered customer support application built using **FastAPI,
 
 **Frontend:** https://customer-support-ai-agent-nu.vercel.app
 
+**Backend API:** https://customer-support-ai-agent-oz0j.onrender.com
+
 ## ✨ Features
 
 - Multi-Agent workflow using LangGraph
